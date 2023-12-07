@@ -6,13 +6,12 @@ import {
   TextInput,
   ScrollView,
   StyleSheet,
+  TouchableOpacity,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 
-import ProductCard from "../../components/Users/ProductCard";
 import { baseUrl } from "../../redux/store";
-import MyHeader from "../../components/MyHeader";
 import {
   getProductsData,
   getProductsDataFailure,
@@ -22,13 +21,12 @@ import {
   CartBagIcon,
   LocationDownArrowIcon,
   SearchIcon,
-  SwiperDivIcon,
 } from "../../../assets";
 import OfferCard from "../../components/Home/OfferCard";
 import RecommendedCard from "../../components/Home/RecommendedCard";
 
 const Home = ({ route, navigation }) => {
-  const { products  } = useSelector((store, action) => store);
+  const { products, isLoading, cart } = useSelector((store, action) => store);
 
   const dispatch = useDispatch();
 
@@ -47,7 +45,7 @@ const Home = ({ route, navigation }) => {
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [isLoading]);
 
   return (
     <>
@@ -58,16 +56,18 @@ const Home = ({ route, navigation }) => {
               <Text style={styles.headerText}>Hey, Rahul</Text>
             </View>
 
-            <View>
+            <TouchableOpacity onPress={() => navigation.navigate("Shopping Cart")}>
               <Image
                 source={CartBagIcon}
                 alt="CartBagIcon"
                 style={styles.cartImage}
               />
               <View style={styles.cartDiv}>
-                <Text>3</Text>
+                <Text>{cart.length}
+                </Text>
               </View>
-            </View>
+            </TouchableOpacity>
+
           </View>
 
           <View style={styles.searchDiv}>
@@ -128,7 +128,7 @@ const Home = ({ route, navigation }) => {
                 {
                   products?.map((item, index) => {
                     return (
-                      <RecommendedCard key={item.id} navigation={navigation} product={item}/>
+                      <RecommendedCard key={item.id} navigation={navigation} product={item} />
                     )
                   })
                 }

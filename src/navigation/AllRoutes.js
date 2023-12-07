@@ -24,7 +24,7 @@ const AllRoutes = () => {
       },
     },
     {
-      name: "Cart",
+      name: "Shopping Cart",
       component: CartScreen,
       options: {
         headerShown: true,

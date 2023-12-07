@@ -1,8 +1,16 @@
-import { View, StyleSheet, Image, Text, TouchableOpacity } from "react-native"
+import { View, StyleSheet, Image, Text, TouchableOpacity } from "react-native";
+import { useDispatch } from "react-redux";
 import { AddToCartIcon, FavouritesRedHeartIcon, RecommendedCardIcon } from "../../../assets";
+import { addToCart } from "../../redux/action";
 
 const RecommendedCard = ({ navigation, product }) => {
+    const dispatch = useDispatch();
     const { price, thumbnail, title, rating } = product;
+
+    const addToCartHandle = () => {
+        alert("Item added to cart")
+        dispatch(addToCart({...product, quantity:1}));
+    }
 
     return (
         <TouchableOpacity onPress={() => navigation.navigate("Product Details", product)}>
@@ -14,7 +22,9 @@ const RecommendedCard = ({ navigation, product }) => {
                 <View style={{ bottom: 0, paddingVertical: 5 }} >
                     <View style={styles.cardBottom}>
                         <Text style={{ fontSize: 14, lineHeight: 20, fontWeight: "600" }} >${price}</Text>
-                        <Image source={AddToCartIcon} style={styles.addToCartIcon} />
+                        <TouchableOpacity onPress={() => addToCartHandle()} >
+                            <Image source={AddToCartIcon} style={styles.addToCartIcon} />
+                        </TouchableOpacity>
                     </View>
                     <Text style={styles.brandTxt}>{title}</Text>
                 </View>

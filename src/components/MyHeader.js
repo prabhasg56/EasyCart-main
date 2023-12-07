@@ -54,7 +54,7 @@ const AppHeader = ({
 		<Surface style={[styles.header, style, { backgroundColor: headerBg }]}>
 			<LeftView />
 			<TitleView />
-			<RightView />
+			{/* <RightView /> */}
 		</Surface>
 	)
 }

@@ -12,11 +12,11 @@ import GlobalStyles from '../../styles/GlobalStyles';
 const CartScreen = ({ navigation }) => {
   const [subTotal, setSubtotal] = useState(0);
 
-  const { cart } = useSelector((store) => store);
+  const {cart } = useSelector((store) => store);
 
   const dispatch = useDispatch();
 
-  const deliveryCharge = 40;
+  const deliveryCharge = 2;
 
   // Calculate subtotal price
   useEffect(() => {
@@ -27,39 +27,15 @@ const CartScreen = ({ navigation }) => {
   const grandTotal = subTotal + deliveryCharge;
 
   const handleSubmit = () => {
-    navigation.navigate("Navtech");
+    navigation.navigate("Home");
   }
-
-  const handleCancel = () => {
-    navigation.navigate("Navtech");
-  }
-
-  const fetchCartProducts = async () => {
-    dispatch(getCartData());
-
-    try {
-      const response = await axios.get(`${baseUrl}/cart`);
-
-      dispatch(getCartDataSuccess(response.data));
-
-    } catch (err) {
-      console.warn(err);
-
-      dispatch(getCartDataFailure());
-    }
-
-  }
-
-  useEffect(() => {
-    fetchCartProducts();
-  }, []);
 
   return (
     <ScrollView style={styles.container}>
 
       <View style={{ padding: 5 }}>
         {
-          cart.map((item, ind) => {
+          cart?.map((item, ind) => {
             return (
               <CartCard key={ind} navigation={navigation} cartItem={item} />
             )
@@ -71,26 +47,23 @@ const CartScreen = ({ navigation }) => {
         <View gap={0} >
           <View style={{ ...styles.subTotalTxt, paddingHorizontal: 5, paddingVertical: 10, borderColor: "#9E9898", borderTopWidth: 1 }}>
             <Text>Subtotal</Text>
-            <Text>₹ {subTotal}</Text>
+            <Text>$ {subTotal}</Text>
           </View>
           <View style={{ ...styles.subTotalTxt, paddingHorizontal: 5, paddingVertical: 10, borderBottomWidth: 1 }}>
             <Text>Delivery</Text>
-            <Text>₹ {subTotal && deliveryCharge}</Text>
+            <Text>$ {subTotal && deliveryCharge}.00</Text>
           </View>
 
         </View>
         <View style={styles.grandTotalCon} >
           <Text style={styles.grandTotalTxt}>Grand Total</Text>
-          <Text style={styles.grandTotalTxt}>₹ {subTotal && grandTotal}</Text>
+          <Text style={styles.grandTotalTxt}>$ {subTotal && grandTotal}</Text>
         </View>
       </View>
 
       <View style={styles.btnCon}>
-        <TouchableOpacity style={[GlobalStyles.btn, { backgroundColor: "#044C04", width: "40%" }]} onPress={() => handleSubmit()}>
-          <Text style={GlobalStyles.btnTxt}>Checkout</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[GlobalStyles.btn, { backgroundColor: "#8C0404", width: "40%" }]} onPress={() => handleCancel()}>
-          <Text style={GlobalStyles.btnTxt}>Cancel</Text>
+        <TouchableOpacity style={[GlobalStyles.btn, { backgroundColor: "#2A4BA0", width: "90%" }]} onPress={() => handleSubmit()}>
+          <Text style={GlobalStyles.btnTxt}>Proceed  To checkout</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

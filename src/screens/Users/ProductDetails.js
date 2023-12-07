@@ -1,58 +1,27 @@
 import React from 'react'
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
 import { Button } from 'react-native-paper';
 import Carousel from 'react-native-snap-carousel';
-import { Rating, AirbnbRating } from 'react-native-ratings';
+import { AirbnbRating } from 'react-native-ratings';
 
-import { Shoe2 } from '../../../assets/index';
-import { baseUrl } from '../../redux/store';
+
 import { addToCart } from '../../redux/action';
 
 const ProductDetails = ({ route, navigation }) => {
     const dispatch = useDispatch();
 
-    const { title, discountPercentage, rating, description, price, size, id, quantity, images } = route.params;
+    const { title, discountPercentage, description, price, size, id, quantity, images } = route.params;
 
-    const { cart } = useSelector((store, action) => store);
+    const addToCartHandle = () => {
+        dispatch(addToCart({ ...route.params, quantity: 1 }));
 
-    const addToCartHandler = async () => {
-        const productId = cart.find((item, index) => item.id === id)
-
-        if (!productId) {
-            try {
-                const response = await axios.post(`${baseUrl}/cart`, { brandName, description, price, size, quantity: 1 });
-
-                dispatch(addToCart(response.data));
-                alert("Product added successfully");
-
-                navigation.navigate("Cart");
-
-            }
-            catch (error) {
-                console.warn(error);
-            }
-        } else {
-
-            try {
-                const response = await axios.patch(`${baseUrl}/cart/${id}`, { quantity: quantity + 1 });
-
-                dispatch(addToCart(response.data));
-
-                alert("Product already exists in your cart!");
-
-                navigation.navigate("Cart");
-
-            }
-            catch (error) {
-                console.warn(error);
-            }
-        }
+        alert("Item added to cart")
+        navigation.navigate("Cart");
 
     }
 
-    const renderItem = ({ item }) => {
+    const carousel = ({ item }) => {
         return (
             <View style={styles.carouselItem}>
                 <Image source={{ uri: item }} style={styles.image} />
@@ -81,7 +50,7 @@ const ProductDetails = ({ route, navigation }) => {
             <View style={styles.imageContainer}>
                 <Carousel
                     data={images}
-                    renderItem={renderItem}
+                    renderItem={carousel}
                     sliderWidth={400}
                     itemWidth={400}
                 />
@@ -97,7 +66,7 @@ const ProductDetails = ({ route, navigation }) => {
             </View>
 
             <View style={{ flexDirection: "row", gap: 20, justifyContent: "center", marginTop: 30 }}>
-                <Button mode="outlined" onPress={() => console.log('Pressed')} style={{ flex: 0.4, color: "#2A4BA0", paddingVertical: 10 }}>
+                <Button mode="outlined" onPress={() => addToCartHandle()} style={{ flex: 0.4, color: "#2A4BA0", paddingVertical: 10 }}>
                     Add To Cart
                 </Button>
                 <Button mode="contained" onPress={() => console.log('Pressed')} style={{ flex: 0.4, backgroundColor: "#2A4BA0", paddingVertical: 10 }}>

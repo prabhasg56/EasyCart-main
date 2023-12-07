@@ -1,62 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import axios from 'axios';
 import { useDispatch } from 'react-redux';
 
-import { Shoe2, AddIcon, RemoveIcon, DeleteICon } from '../../../assets/index';
-import { baseUrl } from '../../redux/store';
-import { deleteCartData } from '../../redux/action';
-
 const CartCard = ({ navigation, cartItem }) => {
-  const { brandName, description, price, size, quantity, id } = cartItem;
+  const { title, price, quantity, id, thumbnail } = cartItem;
 
   const dispatch = useDispatch();
-
-  const handleDeleteItem = async () => {
-    if (quantity > 0) {
-      try {
-        const respone = await axios.delete(`${baseUrl}/cart/${id}`);
-        console.log(respone)
-        dispatch(deleteCartData(respone.data));
-
-        alert("Deleted successfully");
-      } catch (error) {
-        alert(error.message);
-      }
-    }
-  }
 
   return (
     <View style={styles.continer}>
 
       <View style={{ alignItems: "center", gap: 10 }}>
-        <Image source={Shoe2} alt='shoe' />
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-          <Image source={RemoveIcon} alt='icon' style={styles.iconAdd} />
-          <Text style={{ fontSize: 15, fontWeight: "800" }}>{quantity}</Text>
-          <Image source={AddIcon} alt='icon' style={styles.iconAdd} />
-        </View>
+        <Image source={{uri: thumbnail}} alt='Image' style={styles.cardImage}/>
       </View>
 
       <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-around" }}>
-
-        <View style={{ width: "55%" }}>
-          <Text style={styles.title} >{brandName} </Text>
-          <Text style={styles.subTitle}>{description}</Text>
-          <Text style={styles.subTitle}>Puma White-Silver</Text>
+       
+        <View style={{ width: "55%", marginTop:10 }}>
+          <Text style={styles.title} >{title} </Text>
           <Text style={styles.subTitle}>
-            SIze : {size}
+            ${price}
           </Text>
         </View>
-        <View gap={20} style={{ marginRight: "auto", paddingHorizontal: 5 }}>
-          <TouchableOpacity onPress={() => handleDeleteItem()}>
-            <Image source={DeleteICon} style={{ color: "red", alignSelf: "center" }} />
-          </TouchableOpacity>
 
-          <View >
-            <Text style={styles.totalPrice}> ₹ {price}</Text>
-            <Text style={styles.subtxt}>Incl. of taxes</Text>
-          </View>
+        <View gap={20} style={{ marginRight: "auto", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+          <TouchableOpacity>
+            <Text style={{fontSize:30}}>-</Text>
+          </TouchableOpacity>
+          <Text style={styles.totalPrice}>{quantity}</Text>
+          <TouchableOpacity>
+            <Text style={styles.subtxt}>+</Text>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -80,16 +54,16 @@ const styles = StyleSheet.create({
     color: "#191919"
   },
   subTitle: {
-    fontSize: 10,
-    fontWeight: "600",
+    fontSize: 14,
+    fontWeight: "400",
   },
   subtxt: {
-    fontSize: 10,
+    fontSize: 20,
     fontWeight: "400",
   },
   totalPrice: {
-    fontSize: 15,
-    fontWeight: "bold",
+    fontSize: 14,
+    fontWeight: "500",
     color: "black"
   },
   iconAdd: {
@@ -97,6 +71,13 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20
   },
+  cardImage: {
+    width: 100, height: 100,
+    overflow: 'hidden',
+    alignItems: 'center',
+    position: 'relative',
+    margin: 10
+},
 });
 
 

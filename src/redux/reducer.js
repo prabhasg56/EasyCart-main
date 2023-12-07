@@ -31,12 +31,24 @@ export const reducer = (state = initState, { type, payload }) => {
             }
 
         case ADD_TO_CART:
-            return {
-                ...state,
-                isLoading: false,
-                isError: false,
-                products: [...state.cart, payload]
+            const productToUpdate = state.cart.find((item) => item.id === payload.id)
+            if (!productToUpdate) {
+                return {
+                    ...state,
+                    isLoading: false,
+                    isError: false,
+                    cart: [...state.cart, payload]
+                }
+            }else{
+                productToUpdate.quantity  = productToUpdate.quantity + 1
+                return {
+                    ...state,
+                    isLoading: false,
+                    isError: false,
+                    cart: [...state.cart]
+                }
             }
+           
         case GET_CART_DATA:
             return {
                 ...state,

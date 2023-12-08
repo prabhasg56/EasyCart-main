@@ -1,5 +1,5 @@
 {
-  "name": "navtechshoe",
+  "name": "easycart",
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo/vector-icons": "^13.0.0",
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/stack": "^6.3.20",
@@ -32,5 +33,16 @@
   "devDependencies": {
     "@babel/core": "^7.20.0"
   },
-  "private": true
+  "private": true,
+  "description": "The application comprises two sections: Admin and End-user.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prabhasg56/EasyCart-main.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/prabhasg56/EasyCart-main/issues"
+  },
+  "homepage": "https://github.com/prabhasg56/EasyCart-main#readme"
 }

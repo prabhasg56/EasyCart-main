@@ -24,6 +24,7 @@ import {
 } from "../../../assets";
 import OfferCard from "../../components/Home/OfferCard";
 import RecommendedCard from "../../components/Home/RecommendedCard";
+import CartIcon from "../../components/Users/CartIcon";
 
 const Home = ({ route, navigation }) => {
   const { products, isLoading, cart } = useSelector((store, action) => store);
@@ -56,17 +57,7 @@ const Home = ({ route, navigation }) => {
               <Text style={styles.headerText}>Hey, Rahul</Text>
             </View>
 
-            <TouchableOpacity onPress={() => navigation.navigate("Shopping Cart")}>
-              <Image
-                source={CartBagIcon}
-                alt="CartBagIcon"
-                style={styles.cartImage}
-              />
-              <View style={styles.cartDiv}>
-                <Text>{cart.length}
-                </Text>
-              </View>
-            </TouchableOpacity>
+            <CartIcon navigation={navigation} cartLength={cart.length} />
 
           </View>
 

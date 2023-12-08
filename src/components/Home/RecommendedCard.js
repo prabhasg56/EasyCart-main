@@ -1,21 +1,39 @@
 import { View, StyleSheet, Image, Text, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { Ionicons } from "@expo/vector-icons";
+
 import { AddToCartIcon, FavouritesRedHeartIcon, RecommendedCardIcon } from "../../../assets";
-import { addToCart } from "../../redux/action";
+import { addToCart, addToWishlist } from "../../redux/action";
 
 const RecommendedCard = ({ navigation, product }) => {
+    const [addWishlist, setWishlist] = useState(false);
+
     const dispatch = useDispatch();
     const { price, thumbnail, title, rating } = product;
 
     const addToCartHandle = () => {
         alert("Item added to cart")
-        dispatch(addToCart({...product, quantity:1}));
+        dispatch(addToCart({ ...product, quantity: 1 }));
+        dispatch(addToWishlist({ ...product, quantity: 1 }));
+    }
+
+    const addToWishListHandle = () => {
+        setWishlist(!addWishlist)
+
+        addWishlist && dispatch(addToWishlist({ ...product, quantity: 1 }));
+
     }
 
     return (
         <TouchableOpacity onPress={() => navigation.navigate("Product Details", product)}>
             <View style={styles.recommendedCard}>
-                <Image source={FavouritesRedHeartIcon} style={styles.favouriteIcon} alt="Product Image" />
+                <TouchableOpacity style={styles.favouriteIcon}
+                    onPress={() => addToWishListHandle()}
+                >
+                    <Ionicons name={addWishlist ? "heart" : "heart-outline"} size={24} color="#FE9496" />
+                </TouchableOpacity>
+
                 <View style={{ display: 'flex', alignItems: 'center', }}>
                     <Image source={{ uri: thumbnail }} style={styles.cardImage} />
                 </View>
@@ -46,11 +64,10 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     favouriteIcon: {
-        width: 19,
-        height: 16,
-        position: 'absolute',
-        top: 10,
-        left: 10
+        position: "absolute",
+        top: 5,
+        left: 5,
+        zIndex: 5,
     },
     cardImage: {
         width: 100, height: 100,

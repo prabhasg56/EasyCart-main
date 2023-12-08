@@ -11,13 +11,13 @@ import { addToCart } from '../../redux/action';
 const ProductDetails = ({ route, navigation }) => {
     const dispatch = useDispatch();
 
-    const { title, discountPercentage, description, price, size, id, quantity, images } = route.params;
+    const { title, discountPercentage, description, price, rating, id, quantity, images } = route.params;
 
     const addToCartHandle = () => {
         dispatch(addToCart({ ...route.params, quantity: 1 }));
 
         alert("Item added to cart")
-        navigation.navigate("Cart");
+        navigation.navigate("Shopping Cart");
 
     }
 

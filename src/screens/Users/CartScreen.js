@@ -12,9 +12,7 @@ import GlobalStyles from '../../styles/GlobalStyles';
 const CartScreen = ({ navigation }) => {
   const [subTotal, setSubtotal] = useState(0);
 
-  const {cart } = useSelector((store) => store);
-
-  const dispatch = useDispatch();
+  const {cart, isLoading } = useSelector((store) => store);
 
   const deliveryCharge = 2;
 
@@ -22,7 +20,7 @@ const CartScreen = ({ navigation }) => {
   useEffect(() => {
     const subtotalPrice = cart?.reduce((acc, curr) => acc + Number(curr?.price) * curr?.quantity, 0);
     setSubtotal(subtotalPrice);
-  }, [])
+  }, [isLoading])
 
   const grandTotal = subTotal + deliveryCharge;
 

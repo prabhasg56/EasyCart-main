@@ -1,4 +1,4 @@
-import { ADD_TO_CART, ADD_TO_WISHLIST, DELETE_CART_DATA, GET_CART_DATA, GET_CART_DATA_FAILURE, GET_CART_DATA_SUCCESS, GET_PRODUCTS, GET_PRODUCTS_FAILURE, GET_PRODUCTS_SUCCESS } from "./actionType"
+import { ADD_TO_CART, ADD_TO_WISHLIST, DELETE_CART_DATA, GET_CART_DATA, GET_CART_DATA_FAILURE, GET_CART_DATA_SUCCESS, GET_PRODUCTS, GET_PRODUCTS_FAILURE, GET_PRODUCTS_SUCCESS, REMOVE_FROM_WISHLIST} from "./actionType"
 
 const initState = {
     isLoading: false,
@@ -90,13 +90,21 @@ export const reducer = (state = initState, { type, payload }) => {
             }
 
         case ADD_TO_WISHLIST:
-            return {
-                ...state,
-                isLoading: false,
-                isError: false,
-                wishListProdId: [...state.wishListProdId, payload]
+            if(state.wishListProdId.includes(payload)) {
+                return {
+                   ...state,
+                    isLoading: false,
+                    isError: false,
+                    wishListProdId: state.wishListProdId.filter((item) => item!== payload)
+                }
+            }else{
+                return {
+                  ...state,
+                    isLoading: false,
+                    isError: false,
+                    wishListProdId: [...state.wishListProdId, payload]
+                }
             }
-
 
         default: return { ...state };
     }

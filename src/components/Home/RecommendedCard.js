@@ -19,10 +19,8 @@ const RecommendedCard = ({ navigation, product, heart }) => {
     }
 
     const addToWishListHandle = () => {
+        setWishlist(!addWishlist);
         dispatch(addToWishlist(id));
-
-        setWishlist(!addWishlist)
-
 
     }
 

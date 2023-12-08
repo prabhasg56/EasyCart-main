@@ -1,14 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'react-native-paper';
-import Carousel from 'react-native-snap-carousel';
 import { AirbnbRating } from 'react-native-ratings';
+import { SliderBox } from 'react-native-image-slider-box';
+import { Ionicons } from "@expo/vector-icons";
 
 
-import { addToCart } from '../../redux/action';
+import { addToCart, addToWishlist } from '../../redux/action';
 
 const ProductDetails = ({ route, navigation }) => {
+    const [addWishlist, setWishlist] = useState(false);
+
     const dispatch = useDispatch();
 
     const { title, discountPercentage, description, price, rating, id, quantity, images } = route.params;
@@ -21,13 +24,10 @@ const ProductDetails = ({ route, navigation }) => {
 
     }
 
-    const carousel = ({ item }) => {
-        return (
-            <View style={styles.carouselItem}>
-                <Image source={{ uri: item }} style={styles.image} />
-            </View>
-        );
-    };
+    const addToWishListHandle = () => {
+        setWishlist(!addWishlist);
+        dispatch(addToWishlist(id));
+    }
 
     return (
         <View style={styles.container}>
@@ -37,7 +37,8 @@ const ProductDetails = ({ route, navigation }) => {
                     <Text>{description}</Text>
                 </View>
             </View>
-            <View style={{ marginLeft: 15, marginTop: 18, flexDirection: "row", alignItems: "center" }}>
+
+            <View style={{ marginLeft: 15, marginTop: 18, flexDirection: "row", alignItems: "center", marginBottom:10}}>
                 <AirbnbRating
                     count={5}
                     defaultRating={rating}
@@ -47,16 +48,21 @@ const ProductDetails = ({ route, navigation }) => {
                 />
                 <Text>120 Reviews</Text>
             </View>
+
             <View style={styles.imageContainer}>
-                <Carousel
-                    data={images}
-                    renderItem={carousel}
-                    sliderWidth={400}
-                    itemWidth={400}
+                <TouchableOpacity style={styles.favouriteIcon}
+                    onPress={() => addToWishListHandle()}
+                >
+                    <Ionicons name={addWishlist ? "heart" : "heart-outline"} size={24} color="#FE9496" />
+                </TouchableOpacity>
+                <SliderBox
+                    images={images}
+                    autoplay={true}
+                    autoplayInterval={1000}
                 />
             </View>
 
-            <View style={{ flexDirection: "row", gap: 6, marginTop: 20, alignItems: "center", marginLeft: 24 }}>
+            <View style={{ flexDirection: "row", gap: 6, alignItems: "center", marginLeft: 24 }}>
                 <Text style={{ fontSize: 16, fontWeight: 700, color: "#2A4BA0" }}>
                     ${price}/KG
                 </Text>
@@ -81,18 +87,17 @@ const ProductDetails = ({ route, navigation }) => {
                     {description}
                 </Text>
             </View>
+
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 0.6,
+        flex: 0.7,
     },
     imageContainer: {
         flex: 2,
-        justifyContent: "center",
-        alignItems: "center",
     },
     carouselItem: {
         marginTop: 10,
@@ -110,6 +115,12 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         gap: 20,
         padding: 15
+    },
+    favouriteIcon: {
+        position: "absolute",
+        top: 5,
+        right: 20,
+        zIndex: 5,
     },
 
 });

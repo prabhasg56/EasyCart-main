@@ -29,6 +29,7 @@ import CartIcon from "../../components/Users/CartIcon";
 const Home = ({ route, navigation }) => {
   const [searchItem, setSearchItem] = useState("");
 
+
   const { products, isLoading, cart, isError } = useSelector((store, action) => store);
 
   const dispatch = useDispatch();
@@ -85,18 +86,22 @@ const Home = ({ route, navigation }) => {
               <Text style={{ color: "#8891A5", fontSize: 11, lineHeight: 15 }}>
                 DELIVERY TO
               </Text>
-              <Text style={{ color: "#F8F9FB", fontSize: 14, lineHeight: 19 }}>
-                Green Way 3000, Sylhet <Image source={LocationDownArrowIcon} />
-              </Text>
+              <TouchableOpacity>
+                <Text style={{ color: "#F8F9FB", fontSize: 14, lineHeight: 19 }}>
+                  Green Way 3000, Sylhet <Image source={LocationDownArrowIcon} />
+                </Text>
+              </TouchableOpacity>
             </View>
 
             <View>
               <Text style={{ color: "#8891A5", fontSize: 11, lineHeight: 15 }}>
                 WITHIN
               </Text>
-              <Text style={{ color: "#F8F9FB", fontSize: 14, lineHeight: 19 }}>
-                1 Hour <Image source={LocationDownArrowIcon} />
-              </Text>
+              <TouchableOpacity>
+                <Text style={{ color: "#F8F9FB", fontSize: 14, lineHeight: 19 }}>
+                  1 Hour <Image source={LocationDownArrowIcon} />
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -107,7 +112,7 @@ const Home = ({ route, navigation }) => {
             {
               products[0]?.images?.map((item, index) => {
                 return (
-                  <OfferCard key={index} img = {item}/>
+                  <OfferCard key={index} img={item} />
                 )
               })
             }
@@ -115,7 +120,7 @@ const Home = ({ route, navigation }) => {
           </ScrollView>
 
           <View>
-           {/* {isLoading && <Text>Loading...</Text>} */}
+            {isLoading && <Text style={{ alignSelf: "center", fontSize: 20, fontWeight: "800" }} >Loading...</Text>}
           </View>
 
           {/* Recommended section */}
@@ -132,7 +137,7 @@ const Home = ({ route, navigation }) => {
                 {
                   products?.map((item, index) => {
                     return (
-                      <RecommendedCard key={item.id} navigation={navigation} product={item} heart={true}/>
+                      <RecommendedCard key={item.id} navigation={navigation} product={item} heart={true} />
                     )
                   })
                 }

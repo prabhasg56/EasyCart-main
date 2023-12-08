@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -27,7 +27,9 @@ import RecommendedCard from "../../components/Home/RecommendedCard";
 import CartIcon from "../../components/Users/CartIcon";
 
 const Home = ({ route, navigation }) => {
-  const { products, isLoading, cart } = useSelector((store, action) => store);
+  const [searchItem, setSearchItem] = useState("");
+
+  const { products, isLoading, cart, isError } = useSelector((store, action) => store);
 
   const dispatch = useDispatch();
 
@@ -36,7 +38,12 @@ const Home = ({ route, navigation }) => {
 
     try {
       const response = await axios.get(`${baseUrl}/products`);
-      dispatch(getProductsDataSuccess(response.data.products));
+
+      const filterProducts = response.data.products.filter((product) => {
+        return product.title?.toLowerCase().includes(searchItem?.toLowerCase());
+      })
+
+      dispatch(getProductsDataSuccess(filterProducts));
     } catch (err) {
       console.warn(err);
 
@@ -46,7 +53,8 @@ const Home = ({ route, navigation }) => {
 
   useEffect(() => {
     fetchProducts();
-  }, [isLoading]);
+  }, [searchItem]);
+
 
   return (
     <>
@@ -67,6 +75,8 @@ const Home = ({ route, navigation }) => {
               placeholder="Search Products or Store"
               placeholderTextColor="#8891A5"
               style={styles.searchBar}
+              value={searchItem}
+              onChangeText={(item) => setSearchItem(item)}
             />
           </View>
 
@@ -93,17 +103,20 @@ const Home = ({ route, navigation }) => {
 
         <View style={styles.bodyDiv}>
           {/* Offers sections */}
-
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             {
-              [1, 2, 3, 4].map((item, index) => {
+              products[0]?.images?.map((item, index) => {
                 return (
-                  <OfferCard key={index} />
+                  <OfferCard key={index} img = {item}/>
                 )
               })
             }
 
           </ScrollView>
+
+          <View>
+           {/* {isLoading && <Text>Loading...</Text>} */}
+          </View>
 
           {/* Recommended section */}
           <View style={styles.recommendedDiv}>
@@ -119,7 +132,7 @@ const Home = ({ route, navigation }) => {
                 {
                   products?.map((item, index) => {
                     return (
-                      <RecommendedCard key={item.id} navigation={navigation} product={item} />
+                      <RecommendedCard key={item.id} navigation={navigation} product={item} heart={true}/>
                     )
                   })
                 }

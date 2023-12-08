@@ -3,8 +3,6 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-nati
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 
-import { getCartData, getCartDataFailure, getCartDataSuccess } from '../../redux/action';
-import { baseUrl } from '../../redux/store';
 import CartCard from '../../components/Users/CartCard';
 import GlobalStyles from '../../styles/GlobalStyles';
 
@@ -20,7 +18,7 @@ const CartScreen = ({ navigation }) => {
   useEffect(() => {
     const subtotalPrice = cart?.reduce((acc, curr) => acc + Number(curr?.price) * curr?.quantity, 0);
     setSubtotal(subtotalPrice);
-  }, [isLoading])
+  }, [cart])
 
   const grandTotal = subTotal + deliveryCharge;
 

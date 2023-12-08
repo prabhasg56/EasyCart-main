@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, ScrollView, StyleSheet } from 'react-native'
 
 import MyHeader from '../../components/MyHeader';
@@ -6,11 +6,18 @@ import RecommendedCard from '../../components/Home/RecommendedCard';
 import { useSelector } from 'react-redux';
 
 const Favourite = ({ route, navigation }) => {
-  const {  cart, wishlist } = useSelector((store, action) => store);
+  const [wishList, setWishlist] = useState([]);
+  const { wishListProdId, products } = useSelector((store, action) => store);
 
-  console.log(wishlist)
+  useEffect(() => {
+    const updatedWishlist = products.filter((item) => {
+      return wishListProdId.includes(item.id)
+    });
+    setWishlist(updatedWishlist);
+  }, [wishListProdId]);
+
   return (
-    <View>
+    <View style={{flex:1, backgroundColor:"white"}}>
       <View style={{ marginTop: 30 }}>
         <MyHeader
           onPressMenu={() => navigation.goBack()}
@@ -18,36 +25,24 @@ const Favourite = ({ route, navigation }) => {
           right="more-vertical"
         />
       </View>
-      <View style={styles.recommendedDiv}>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          style={styles.recommendedContainer}
-        >
-          <View style={styles.recommendedDivStyle}>
-            {
-              wishlist?.map((item, index) => {
-                return (
-                  <RecommendedCard key={item.id} navigation={navigation} product={item} />
-                )
-              })
-            }
-          </View>
-        </ScrollView>
-      </View>
+      <ScrollView >
+        <View style={styles.recommendedDivStyle}>
+          {
+            wishList?.map((item, index) => {
+              return (
+                <RecommendedCard key={item.id} navigation={navigation} product={item} heart={false} />
+              )
+            })
+          }
+        </View>
+      </ScrollView>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  recommendedDiv: {
-    marginTop: 20,
-  },
-  recommendedContainer: {
-    marginTop: 20,
-    height: 300,
-  },
   recommendedDivStyle: {
-    flex: 1,
+    marginTop:20,
     flexWrap: "wrap",
     flexDirection: "row",
     rowGap: 15,

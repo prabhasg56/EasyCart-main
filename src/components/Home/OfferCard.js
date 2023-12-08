@@ -2,11 +2,11 @@ import { Image, Text, View, StyleSheet } from "react-native";
 import { SwiperDivIcon } from "../../../assets";
 
 
-const OfferCard = () => {
+const OfferCard = ({img}) => {
   return (
     <View style={styles.swiperCard}>
       <View>
-        <Image source={SwiperDivIcon} style={{ width: 68, height: 68 }} />
+        <Image source={{uri:img}} style={{ width: 68, height: 68 }} />
       </View>
       <View>
         <Text style={styles.swiperCardText1}>Get</Text>

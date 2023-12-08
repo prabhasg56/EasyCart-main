@@ -3,14 +3,14 @@ import { useDispatch } from "react-redux";
 import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 
-import { AddToCartIcon, FavouritesRedHeartIcon, RecommendedCardIcon } from "../../../assets";
+import { AddToCartIcon, } from "../../../assets";
 import { addToCart, addToWishlist } from "../../redux/action";
 
-const RecommendedCard = ({ navigation, product }) => {
+const RecommendedCard = ({ navigation, product, heart }) => {
     const [addWishlist, setWishlist] = useState(false);
 
     const dispatch = useDispatch();
-    const { price, thumbnail, title, rating } = product;
+    const { price, thumbnail, title, id } = product;
 
     const addToCartHandle = () => {
         alert("Item added to cart")
@@ -19,20 +19,23 @@ const RecommendedCard = ({ navigation, product }) => {
     }
 
     const addToWishListHandle = () => {
+        dispatch(addToWishlist(id));
+
         setWishlist(!addWishlist)
 
-        addWishlist && dispatch(addToWishlist({ ...product, quantity: 1 }));
 
     }
 
     return (
         <TouchableOpacity onPress={() => navigation.navigate("Product Details", product)}>
             <View style={styles.recommendedCard}>
-                <TouchableOpacity style={styles.favouriteIcon}
-                    onPress={() => addToWishListHandle()}
-                >
-                    <Ionicons name={addWishlist ? "heart" : "heart-outline"} size={24} color="#FE9496" />
-                </TouchableOpacity>
+                {
+                    heart && <TouchableOpacity style={styles.favouriteIcon}
+                        onPress={() => addToWishListHandle()}
+                    >
+                        <Ionicons name={addWishlist ? "heart" : "heart-outline"} size={24} color="#FE9496" />
+                    </TouchableOpacity>
+                }
 
                 <View style={{ display: 'flex', alignItems: 'center', }}>
                     <Image source={{ uri: thumbnail }} style={styles.cardImage} />

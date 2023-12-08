@@ -5,7 +5,7 @@ const initState = {
     isError: false,
     products: [],
     cart: [],
-    wishList: []
+    wishListProdId: []
 }
 
 export const reducer = (state = initState, { type, payload }) => {
@@ -90,12 +90,11 @@ export const reducer = (state = initState, { type, payload }) => {
             }
 
         case ADD_TO_WISHLIST:
-            console.log("payload"+{...payload})
             return {
                 ...state,
                 isLoading: false,
                 isError: false,
-                wishList: [...state.wishList, payload]
+                wishListProdId: [...state.wishListProdId, payload]
             }
 
 

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { View, ScrollView, StyleSheet } from 'react-native'
 
-import MyHeader from '../../components/MyHeader';
 import RecommendedCard from '../../components/Home/RecommendedCard';
 import { useSelector } from 'react-redux';
 
@@ -18,13 +17,6 @@ const Favourite = ({ route, navigation }) => {
 
   return (
     <View style={{flex:1, backgroundColor:"white"}}>
-      <View style={{ marginTop: 30 }}>
-        <MyHeader
-          onPressMenu={() => navigation.goBack()}
-          title={route.name}
-          right="more-vertical"
-        />
-      </View>
       <ScrollView >
         <View style={styles.recommendedDivStyle}>
           {

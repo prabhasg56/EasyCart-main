@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "NavtechShoe",
-    "slug": "NavtechShoe",
+    "name": "easycart",
+    "slug": "easycart",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,10 +21,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.prabhas56.easycart"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "468618a6-bc30-47e2-9ebf-bdd06b37faac"
+      }
     }
   }
 }

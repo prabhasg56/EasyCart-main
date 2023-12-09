@@ -1,21 +1,21 @@
 import React from 'react'
-import { View, Text } from 'react-native-animatable';
-
-import MyHeader from '../../components/MyHeader';
+import { View, Text, StyleSheet } from 'react-native';
 
 const Categories = ({ route, navigation }) => {
   return (
     <View>
-      <View style={{ marginTop: 30 }}>
-        <MyHeader
-          onPressMenu={() => navigation.goBack()}
-          title={route.name}
-          right="more-vertical"
-        />
-      </View>
-      <Text>Categories</Text>
+      <Text style={styles.mobTxt}>Mobiles</Text>
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  mobTxt: {
+    fontSize: 20,
+    alignSelf: "center",
+    paddingVertical: 10,
+    fontWeight: "700"
+  }
+})
 
 export default Categories

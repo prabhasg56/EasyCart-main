@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { Button } from 'react-native-paper';
 import { AirbnbRating } from 'react-native-ratings';
 import { SliderBox } from 'react-native-image-slider-box';
@@ -38,54 +38,58 @@ const ProductDetails = ({ route, navigation }) => {
                 </View>
             </View>
 
-            <View style={{ marginLeft: 15, marginTop: 18, flexDirection: "row", alignItems: "center", marginBottom:10}}>
-                <AirbnbRating
-                    count={5}
-                    defaultRating={rating}
-                    size={15}
-                    showRating={false}
-                    isDisabled
-                />
-                <Text>120 Reviews</Text>
+            <View>
+                <View style={{ marginLeft: 15, marginTop: 18, flexDirection: "row", alignItems: "center", marginBottom: 10 }}>
+                    <AirbnbRating
+                        count={5}
+                        defaultRating={rating}
+                        size={15}
+                        showRating={false}
+                        isDisabled
+                    />
+                    <Text>120 Reviews</Text>
+                </View>
+
+                <View >
+                    <TouchableOpacity style={styles.favouriteIcon}
+                        onPress={() => addToWishListHandle()}
+                    >
+                        <Ionicons name={addWishlist ? "heart" : "heart-outline"} size={24} color="#FE9496" />
+                    </TouchableOpacity>
+                    <SliderBox
+                        images={images}
+                        autoplay={true}
+                        autoplayInterval={1000}
+                    />
+                </View>
+
+                <View style={{ flexDirection: "row", gap: 6, alignItems: "center", marginLeft: 24, marginTop:20 }}>
+                    <Text style={{ fontSize: 16, fontWeight: 700, color: "#2A4BA0" }}>
+                        ${price}/KG
+                    </Text>
+                    <Text style={{ fontSize: 12, fontWeight: 400, borderRadius: 10, padding: 4, color: "#FAFBFD", backgroundColor: "#2A4BA0", paddingHorizontal: 6 }}>
+                        ${discountPercentage} OFF
+                    </Text>
+                </View>
             </View>
 
-            <View style={styles.imageContainer}>
-                <TouchableOpacity style={styles.favouriteIcon}
-                    onPress={() => addToWishListHandle()}
-                >
-                    <Ionicons name={addWishlist ? "heart" : "heart-outline"} size={24} color="#FE9496" />
-                </TouchableOpacity>
-                <SliderBox
-                    images={images}
-                    autoplay={true}
-                    autoplayInterval={1000}
-                />
-            </View>
+            <View>
+                <View style={{ flexDirection: "row", gap: 20, justifyContent: "center", marginTop: 30 }}>
+                    <Button mode="outlined" onPress={() => addToCartHandle()} style={{ flex: 0.4, color: "#2A4BA0", paddingVertical: 10 }}>
+                        Add To Cart
+                    </Button>
+                    <Button mode="contained" onPress={() => console.log('Pressed')} style={{ flex: 0.4, backgroundColor: "#2A4BA0", paddingVertical: 10 }}>
+                        Buy Now
+                    </Button>
+                </View>
 
-            <View style={{ flexDirection: "row", gap: 6, alignItems: "center", marginLeft: 24 }}>
-                <Text style={{ fontSize: 16, fontWeight: 700, color: "#2A4BA0" }}>
-                    ${price}/KG
-                </Text>
-                <Text style={{ fontSize: 12, fontWeight: 400, borderRadius: 10, padding: 4, color: "#FAFBFD", backgroundColor: "#2A4BA0", paddingHorizontal: 6 }}>
-                    ${discountPercentage} OFF
-                </Text>
-            </View>
-
-            <View style={{ flexDirection: "row", gap: 20, justifyContent: "center", marginTop: 30 }}>
-                <Button mode="outlined" onPress={() => addToCartHandle()} style={{ flex: 0.4, color: "#2A4BA0", paddingVertical: 10 }}>
-                    Add To Cart
-                </Button>
-                <Button mode="contained" onPress={() => console.log('Pressed')} style={{ flex: 0.4, backgroundColor: "#2A4BA0", paddingVertical: 10 }}>
-                    Buy Now
-                </Button>
-            </View>
-
-            {/* Details section */}
-            <View style={{ flex: 0.5, gap: 6, marginTop: 30, paddingHorizontal: 28 }}>
-                <Text style={{ fontWeight: 500, fontSize: 18 }}>Details</Text>
-                <Text style={{ color: "#8891A5" }}>
-                    {description}
-                </Text>
+                {/* Details section */}
+                <View style={{ gap: 6, marginTop: 30, paddingHorizontal: 28 }}>
+                    <Text style={{ fontWeight: 500, fontSize: 18 }}>Details</Text>
+                    <Text style={{ color: "#8891A5" }}>
+                        {description}
+                    </Text>
+                </View>
             </View>
 
         </View>
@@ -95,9 +99,6 @@ const ProductDetails = ({ route, navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 0.7,
-    },
-    imageContainer: {
-        flex: 2,
     },
     carouselItem: {
         marginTop: 10,
@@ -111,7 +112,6 @@ const styles = StyleSheet.create({
         resizeMode: "contain",
     },
     subContainer: {
-        flex: 0.5,
         flexDirection: "row",
         gap: 20,
         padding: 15

@@ -10,11 +10,11 @@ import Favourite from '../../screens/Users/Favourite';
 import More from '../../screens/Users/More';
 
 const TabArr = [
-  { route: 'Home', label: 'Home', type: Icons.Entypo, icon: 'home', component: Home },
-  { route: 'Categories', label: 'Categories', type: Icons.Entypo, icon: 'grid', component: Categories },
-  { route: 'Favourite', label: 'Favourite', type: Icons.AntDesign, icon: 'heart', component: Favourite },
+  { route: 'Home', headerShown: false, label: 'Home', type: Icons.Entypo, icon: 'home', component: Home },
+  { route: 'Categories', headerShown: true, label: 'Categories', type: Icons.Entypo, icon: 'grid', component: Categories },
+  { route: 'Favourite', headerShown: true, label: 'Favourite', type: Icons.AntDesign, icon: 'heart', component: Favourite },
   {
-    route: 'More', label: 'More', type: Icons.Feather, icon: 'more-vertical', component: More
+    route: 'More', headerShown: true, label: 'More', type: Icons.Feather, icon: 'more-vertical', component: More
   },
 ];
 
@@ -82,6 +82,7 @@ export default function AnimTab() {
         return (
           <Tab.Screen key={index} name={item.route} component={item.component}
             options={{
+              headerShown: item.headerShown,
               tabBarShowLabel: false,
               tabBarButton: (props) => <TabButton {...props} item={item} />
             }}

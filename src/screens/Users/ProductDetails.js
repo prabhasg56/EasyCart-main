@@ -65,7 +65,7 @@ const ProductDetails = ({ route, navigation }) => {
 
                 <View style={{ flexDirection: "row", gap: 6, alignItems: "center", marginLeft: 24, marginTop:20 }}>
                     <Text style={{ fontSize: 16, fontWeight: 700, color: "#2A4BA0" }}>
-                        ${price}/KG
+                        ${price}
                     </Text>
                     <Text style={{ fontSize: 12, fontWeight: 400, borderRadius: 10, padding: 4, color: "#FAFBFD", backgroundColor: "#2A4BA0", paddingHorizontal: 6 }}>
                         ${discountPercentage} OFF
